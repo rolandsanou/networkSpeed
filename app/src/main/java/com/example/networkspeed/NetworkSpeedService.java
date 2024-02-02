@@ -120,7 +120,7 @@ public class NetworkSpeedService extends Service {
 
         }
 
-        bitmap = createBitmapFromString(test.trim());
+        bitmap = TextToBitmapConverter.convertTextToBitmapWithCircle(test, 220, Color.BLACK, Color.TRANSPARENT);
         String content = String.format(Locale.getDefault(), "Down: %.0f kB/s Up: %.0f kB/s", downloadSpeedMbps * 125.0, uploadSpeedMbps * 125.0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -133,24 +133,6 @@ public class NetworkSpeedService extends Service {
         Notification notification = notificationBuilder.build();
 
         startForeground(1, notification);
-    }
-
-    private Bitmap createBitmapFromString(String inputNumber) {
-
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setTextSize(90);
-        paint.setTextAlign(Paint.Align.CENTER);
-
-        Rect textBounds = new Rect();
-        paint.getTextBounds(inputNumber, 0, inputNumber.length(), textBounds);
-
-        Bitmap bitmap = Bitmap.createBitmap(textBounds.width() + 10, 90,
-                Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawText(inputNumber, textBounds.width() / 2 + 5, 70, paint);
-        return bitmap;
     }
 
     @Override
